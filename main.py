@@ -29,19 +29,19 @@ def main():
         multiprocessing_cores = int(sys.argv[1])
 
     parameters = {
-        "starting_month": "2016-1",
-        "ending_month": "2020-6",
+        "starting_month": "2024-1",
+        "ending_month": "2024-6",
         "train_months": 3,
         "test_months": 3,
         "trade_months": 3,
-        "num_ppo": 24,
-        "num_a2c": 24,
-        "training_rounds_per_contender": 20,
+        "num_ppo": 12,
+        "num_a2c": 12,
+        "training_rounds_per_contender": 3,
         "starting_cash": 1000000,
         "ent_coef": 0.01,
-        "buy_action_space": "continuous",
-        "sell_action_space": "continuous",
-        "t": "daily"
+        "buy_action_space": "discrete",
+        "sell_action_space": "discrete",
+        "t": "minutely"
     }
 
     cash = parameters["starting_cash"]
