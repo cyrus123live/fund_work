@@ -50,7 +50,10 @@ def combine_trade_window_histories(run_folder_name):
     folders.sort(key=lambda x: (int(x.split("-")[0]), int(x.split("-")[1])))
 
     for f in folders:
-        combined_history = pd.concat([combined_history, read_history_from_file(f"{run_folder_name}/{f}/trade_window_history")])
+        try:
+            combined_history = pd.concat([combined_history, read_history_from_file(f"{run_folder_name}/{f}/trade_window_history")])
+        except: 
+            continue
 
     write_history_to_file(combined_history, f"{run_folder_name}/run_history")
     return combined_history

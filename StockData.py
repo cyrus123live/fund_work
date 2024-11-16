@@ -122,22 +122,22 @@ def process_data(data, daily = True):
     processed_data["D_HL"] = data["high"] - data["low"]
     
     # Technical indicators by Chatgpt ----- 
-    processed_data["High"] = data["high"]
-    processed_data["Low"] = data["low"]
-    processed_data["Open"] = data["open"]
-    processed_data["Volume"] = data["volume"]
+    # processed_data["High"] = data["high"]
+    # processed_data["Low"] = data["low"]
+    # processed_data["Open"] = data["open"]
+    # processed_data["Volume"] = data["volume"]
 
     # processed_data['SMA_20'] = processed_data['Close'].rolling(window=20).mean()
     # processed_data['EMA_20'] = processed_data['Close'].ewm(span=20, adjust=False).mean()
-    processed_data['RSI'] = calculate_rsi(processed_data)
+    # processed_data['RSI'] = calculate_rsi(processed_data)
     # processed_data['ATR'] = calculate_atr(processed_data)
-    processed_data['MACD'], processed_data['MACD_Signal'], _ = calculate_macd(processed_data)
+    # processed_data['MACD'], processed_data['MACD_Signal'], _ = calculate_macd(processed_data)
     # processed_data['Bollinger_Mid'], processed_data['Bollinger_Upper'], processed_data['Bollinger_Lower'] = calculate_bollinger_bands(processed_data)
-    processed_data['CCI'] = calculate_cci(processed_data)
+    # processed_data['CCI'] = calculate_cci(processed_data)
     # processed_data['Williams_%R'] = calculate_williams_r(processed_data)
     # processed_data['CMF'] = calculate_cmf(processed_data)
     # processed_data['OBV'] = calculate_obv(processed_data)
-    processed_data['ADX'] = calculate_adx(processed_data)
+    # processed_data['ADX'] = calculate_adx(processed_data)
     #  --------------------------
 
     for feature in processed_data.columns:
@@ -155,10 +155,7 @@ def process_data(data, daily = True):
 
     processed_data.dropna(inplace=True)
 
-    if daily:
-        return processed_data
-    else:
-        return processed_data.between_time('07:00', '16:00')
+    return processed_data
 
 def get_min_max_values():
     historical_data = get_consecutive_months(dt.datetime(year=2000, month=1, day=1), 120) # get 2000-2010 data 
@@ -169,6 +166,14 @@ def get_min_max_values():
     
 
 def get_month_csv(year, month):
+
+    year = int("20" + str(year))
+
+    data = data = pd.read_csv(f"btc_data.csv", index_col="timestamp")
+    data.index = pd.to_datetime(data.index)
+    year_data = data[data.index.year == year]
+    return year_data[year_data.index.month == month]
+
     folder_name = "spy_data"
 
     data = pd.read_csv(f"{folder_name}/20{year:02d}-{month:02d}.csv", index_col="timestamp").iloc[::-1]
